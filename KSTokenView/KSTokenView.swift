@@ -96,7 +96,7 @@ class KSTokenView: UIView {
    //__________________________________________________________________________________
    //
    private var _tokenField: KSTokenField!
-   private var _searchTableView: UITableView = UITableView(frame: .zeroRect, style: UITableViewStyle.Plain)
+   private var _searchTableView: UITableView = UITableView(frame: .zero, style: UITableViewStyle.Plain)
    private var _resultArray = [AnyObject]()
    private var _showingSearchResult = false
    private var _indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
@@ -146,7 +146,7 @@ class KSTokenView: UIView {
    }
    
    /// Default is (TokenViewWidth, 200)
-   var searchResultSize: CGSize = CGSize.zeroSize {
+   var searchResultSize: CGSize = CGSize.zero {
       didSet {
          if (KSUtils.isIpad()) {
             _popover?.popoverContentSize = searchResultSize
@@ -347,7 +347,7 @@ class KSTokenView: UIView {
    
    - returns: KSTokenView object
    */
-   required init(coder aDecoder: NSCoder) {
+   required init?(coder aDecoder: NSCoder) {
       super.init(coder: aDecoder)
    }
    
@@ -814,32 +814,32 @@ extension KSTokenView : KSTokenFieldDelegate {
    }
    
    func tokenFieldShouldChangeHeight(height: CGFloat) {
-      delegate?.tokenView?(self, willChangeFrame: frame)
-      frame.size.height = height
-      
-      UIView.animateWithDuration(
-         animateDuration,
-         animations: {
-            //            self._tokenField.frame.size.height = height
-            self.frame.size.height = height
-            
-            if (KSUtils.constrainsEnabled(self)) {
-               for index in 0 ... self.constraints.count-1 {
-                  let constraint: NSLayoutConstraint = self.constraints[index] as NSLayoutConstraint
-                  
-                  if (constraint.firstItem as! NSObject == self && constraint.firstAttribute == .Height) {
-                     constraint.constant = height
-                  }
-               }
-            }
-            
-            self._repositionSearchResults()
-         },
-         completion: {completed in
-            if (completed) {
-               self.delegate?.tokenView?(self, didChangeFrame: self.frame)
-            }
-      })
+//      delegate?.tokenView?(self, willChangeFrame: frame)
+//      frame.size.height = height
+//      
+//      UIView.animateWithDuration(
+//         animateDuration,
+//         animations: {
+//            //            self._tokenField.frame.size.height = height
+//            self.frame.size.height = height
+//            
+//            if (KSUtils.constrainsEnabled(self)) {
+//               for index in 0 ... self.constraints.count-1 {
+//                  let constraint: NSLayoutConstraint = self.constraints[index] as NSLayoutConstraint
+//                  
+//                  if (constraint.firstItem as! NSObject == self && constraint.firstAttribute == .Height) {
+//                     constraint.constant = height
+//                  }
+//               }
+//            }
+//            
+//            self._repositionSearchResults()
+//         },
+//         completion: {completed in
+//            if (completed) {
+//               self.delegate?.tokenView?(self, didChangeFrame: self.frame)
+//            }
+//      })
    }
 }
 
@@ -869,12 +869,12 @@ extension KSTokenView : UITextFieldDelegate {
       
       var searchString: String
       let olderText = _tokenField.text
-      
+    
       // Check if character is removed at some index
       // Remove character at that index
       if (string.isEmpty) {
-         let first: String = olderText!.substringToIndex(advance(olderText!.startIndex, range.location)) as String
-         let second: String = olderText!.substringFromIndex(advance(olderText!.startIndex, range.location+1)) as String
+         let first: String = olderText!.substringToIndex(olderText!.startIndex.advancedBy(range.location)) as String
+         let second: String = olderText!.substringFromIndex(olderText!.startIndex.advancedBy(range.location+1)) as String
          searchString = first + second
          
       }  else { // new character added
